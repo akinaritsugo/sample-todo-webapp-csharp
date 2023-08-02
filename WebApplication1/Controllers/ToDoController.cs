@@ -35,7 +35,7 @@ namespace WebApplication1.Controllers
             try
             {
                 model.UserId = this._userId;
-                this._repository.CreateAsync(model);
+                this._repository.Create(model);
             }
             catch
             {

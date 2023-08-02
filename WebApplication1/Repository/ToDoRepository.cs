@@ -70,7 +70,7 @@ namespace WebApplication1.Repository
             throw new NotImplementedException();
         }
 
-        public ToDoModel CreateAsync(ToDoModel model)
+        public ToDoModel Create(ToDoModel model)
         {
             using (var connection = new SqlConnection(ConnectionString))
             using (var command = connection.CreateCommand())

@@ -4,22 +4,22 @@
 @{
 }
 
-<form>
+@using(Html.BeginForm("Create", "ToDo", FormMethod.Post)){
     <div class="form-group">
-        <label for="title">件名</label>
-        <input type="text" class="form-control" id="title" placeholder="件名を入力してください">
+        <label for="title">件名 <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="title" name="title" placeholder="件名を入力してください">
     </div>
     <div class="form-group">
         <label for="description">説明</label>
-        <textarea class="form-control" id="description" rows="3"></textarea>
+        <textarea class="form-control" id="description" name="description" rows="3"></textarea>
     </div>
     <div class="form-group">
         <label for="deadline">締め切り</label>
-        <input type="date" class="form-control" id="deadline">
+        <input type="date" class="form-control" id="deadline" name="deadline">
     </div>
     <div class="form-group">
         <label for="priority">優先度</label>
-        <select class="form-control" id="priority">
+        <select class="form-control" id="priority" name="priority">
             <option>高</option>
             <option>中</option>
             <option>低</option>
@@ -27,11 +27,11 @@
     </div>
     <div class="form-group">
         <label for="status">ステータス</label>
-        <select class="form-control" id="status">
+        <select class="form-control" id="status" name="status">
             <option>未着手</option>
             <option>着手中</option>
             <option>完了</option>
         </select>
     </div>
     <button type="submit" class="btn btn-primary">登録</button>
-</form>
+}

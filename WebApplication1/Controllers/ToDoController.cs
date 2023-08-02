@@ -28,5 +28,20 @@ namespace WebApplication1.Controllers
         {
             return this.View();
         }
+
+        [HttpPost]
+        public IActionResult Create(ToDoModel model)
+        {
+            try
+            {
+                model.UserId = this._userId;
+                this._repository.CreateAsync(model);
+            }
+            catch
+            {
+                return this.View(model);
+            }
+            return this.RedirectToAction("Index");
+        }
     }
 }

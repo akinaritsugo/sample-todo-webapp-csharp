@@ -40,11 +40,11 @@ namespace WebApplication1.Repository
                             list.Add(new ToDoModel()
                             {
                                 Id = (int)reader["TaskId"],
-                                Title = (string)reader["Title"],
-                                Description = (string)reader["Description"],
-                                Deadline = (DateTime)reader["Deadline"],
-                                Priority = (string)reader["Priority"],
-                                Status = (string)reader["Status"],
+                                Title = reader["Title"].TryParseString(),
+                                Description = reader["Description"].TryParseString(),
+                                Deadline = reader["Deadline"].TryParseDateTime(),
+                                Priority = reader["Priority"].TryParseString(),
+                                Status = reader["Status"].TryParseString(),
                                 UserId = userId
                             });
                         }
@@ -68,6 +68,51 @@ namespace WebApplication1.Repository
         public ToDoModel? GetItem(int userId, int taskId)
         {
             throw new NotImplementedException();
+        }
+
+        public ToDoModel CreateAsync(ToDoModel model)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            using (var command = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+
+                    command.CommandText = @"INSERT INTO Tasks (Title, Description, Deadline, Priority, Status, UserId) VALUES ( @Title, @Description, @Deadline, @Priority, @Status, @UserID )";
+                    command.Parameters.Add(this.CreateSqlParameter("@Title", model.Title));
+                    command.Parameters.Add(this.CreateSqlParameter("@Description", model.Description));
+                    command.Parameters.Add(this.CreateSqlParameter("@Deadline", model.Deadline));
+                    command.Parameters.Add(this.CreateSqlParameter("@Priority", model.Priority));
+                    command.Parameters.Add(this.CreateSqlParameter("@Status", model.Status));
+                    command.Parameters.Add(this.CreateSqlParameter("@UserID", model.UserId));
+
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return model;
+        }
+
+        private SqlParameter CreateSqlParameter<T>(string parameterName, T value)
+        {
+            if(value == null)
+            {
+                return new SqlParameter(parameterName, DBNull.Value);
+            }
+            else
+            {
+                return new SqlParameter(parameterName, value);
+            }
         }
     }
 }

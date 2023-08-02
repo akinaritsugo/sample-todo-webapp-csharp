@@ -2,7 +2,7 @@
 
 @{
 }
-<div>
+<div class="mb-3">
     <a class="btn btn-primary" asp-area="" asp-controller="ToDo" asp-action="Create">新規タスク作成</a>
 </div>
 
@@ -23,7 +23,7 @@
             <td>@item.Priority</td>
             <td>@item.Status</td>
             <td>
-                @item.Id
+                <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
                 <button class="btn btn-light"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-light"><i class="fas fa-trash-alt"></i></button>
             </td>

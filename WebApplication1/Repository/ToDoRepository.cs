@@ -103,6 +103,34 @@ namespace WebApplication1.Repository
             return model;
         }
 
+        public bool Delete(int taskId)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            using (var command = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+
+                    command.CommandText = @"DELETE FROM Tasks WHERE TaskID = @TaskId";
+                    command.Parameters.Add(this.CreateSqlParameter("@TaskId", taskId));
+
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return true;
+        }
+
         private SqlParameter CreateSqlParameter<T>(string parameterName, T value)
         {
             if(value == null)

@@ -25,7 +25,10 @@
             <td>
                 <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
                 <button class="btn btn-light"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-light"><i class="fas fa-trash-alt"></i></button>
+                <form method="post" action="/ToDo/Delete" class="d-inline">
+                    <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
+                    <button type="submit" class="btn btn-light"><i class="fas fa-trash-alt"></i></button>
+                </form>
             </td>
         </tr>
         }

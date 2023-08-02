@@ -43,5 +43,12 @@ namespace WebApplication1.Controllers
             }
             return this.RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public IActionResult Delete(int taskId)
+        {
+            this._repository.Delete(taskId);
+            return this.Redirect("Index");
+        }
     }
 }

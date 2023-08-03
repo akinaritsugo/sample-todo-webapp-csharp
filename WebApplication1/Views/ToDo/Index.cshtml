@@ -19,7 +19,7 @@
         {
         <tr>
             <td>@item.Title</td>
-            <td>@item.Deadline</td>
+            <td>@item.Deadline?.ToString("yyyy/MM/dd")</td>
             <td>@item.Priority</td>
             <td>@item.Status</td>
             <td>

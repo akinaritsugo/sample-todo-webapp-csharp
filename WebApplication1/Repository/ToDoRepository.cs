@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using WebApplication1.Models;
 
 namespace WebApplication1.Repository
@@ -65,9 +66,50 @@ namespace WebApplication1.Repository
             return list;
         }
 
-        public ToDoModel? GetItem(int userId, int taskId)
+        public ToDoModel? GetItem(int taskId)
         {
-            throw new NotImplementedException();
+            List<ToDoModel> list = new List<ToDoModel>();
+
+            using (var connection = new SqlConnection(ConnectionString))
+            using (var command = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+
+                    command.CommandText = @"SELECT TaskID, Title, Description, Deadline, Priority, Status, UserId FROM Tasks WHERE TaskID = @TaskId;";
+                    command.Parameters.Add(this.CreateSqlParameter("@TaskId", taskId));
+
+                    // 読み取り
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            list.Add(new ToDoModel()
+                            {
+                                Id = (int)reader["TaskId"],
+                                Title = reader["Title"].TryParseString(),
+                                Description = reader["Description"].TryParseString(),
+                                Deadline = reader["Deadline"].TryParseDateTime(),
+                                Priority = reader["Priority"].TryParseString(),
+                                Status = reader["Status"].TryParseString(),
+                                UserId = (int)reader["UserId"]
+                            });
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return list.Count > 0 ? list[0] : null;
         }
 
         public ToDoModel Create(ToDoModel model)
@@ -129,6 +171,40 @@ namespace WebApplication1.Repository
             }
 
             return true;
+        }
+
+        public ToDoModel Update(ToDoModel model)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            using (var command = connection.CreateCommand())
+            {
+                try
+                {
+                    connection.Open();
+
+                    command.CommandText = @"UPDATE Tasks Set Title = @Title, Description = @Description, Deadline = @Deadline, Priority = @Priority, Status = @Status, UserId = @UserId WHERE TaskId = @TaskId";
+                    command.Parameters.Add(this.CreateSqlParameter("@Title", model.Title));
+                    command.Parameters.Add(this.CreateSqlParameter("@Description", model.Description));
+                    command.Parameters.Add(this.CreateSqlParameter("@Deadline", model.Deadline));
+                    command.Parameters.Add(this.CreateSqlParameter("@Priority", model.Priority));
+                    command.Parameters.Add(this.CreateSqlParameter("@Status", model.Status));
+                    command.Parameters.Add(this.CreateSqlParameter("@UserID", model.UserId));
+                    command.Parameters.Add(this.CreateSqlParameter("@TaskId", model.Id));
+
+                    command.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    throw;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+
+            return model;
         }
 
         private SqlParameter CreateSqlParameter<T>(string parameterName, T value)

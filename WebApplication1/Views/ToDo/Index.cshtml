@@ -23,8 +23,10 @@
             <td>@item.Priority</td>
             <td>@item.Status</td>
             <td>
-                <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
-                <button class="btn btn-light"><i class="fas fa-edit"></i></button>
+                <form method="GET" action="/ToDo/Edit" class="d-inline">
+                    <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
+                    <button type="submit" class="btn btn-light"><i class="fas fa-edit"></i></button>
+                </form>
                 <form method="post" action="/ToDo/Delete" class="d-inline">
                     <input type="hidden" id="taskId" name="taskId" value="@item.Id" />
                     <button type="submit" class="btn btn-light"><i class="fas fa-trash-alt"></i></button>

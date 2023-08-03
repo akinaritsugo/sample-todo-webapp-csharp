@@ -50,5 +50,19 @@ namespace WebApplication1.Controllers
             this._repository.Delete(taskId);
             return this.Redirect("Index");
         }
+
+        public IActionResult Edit(int taskId)
+        {
+            var task = this._repository.GetItem(taskId);
+            return this.View(task);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ToDoModel model)
+        {
+            model.UserId = this._userId;
+            this._repository.Update(model);
+            return this.RedirectToAction("Index");
+        }
     }
 }

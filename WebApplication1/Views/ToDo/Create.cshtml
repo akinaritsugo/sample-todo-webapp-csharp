@@ -1,10 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
-<form method="POST" action="/ToDo/Create">
+﻿<form method="POST" action="/ToDo/Create">
     <div class="mb-3">
         <label for="title">件名 <span class="text-danger">*</span></label>
         <input type="text" class="form-control" id="title" name="title" placeholder="件名を入力してください">
@@ -33,5 +27,6 @@
             <option>完了</option>
         </select>
     </div>
+    <a asp-action="Index" asp-controller="ToDo" class="btn btn-light">キャンセル</a>
     <button type="submit" class="btn btn-primary">登録</button>
 </form>

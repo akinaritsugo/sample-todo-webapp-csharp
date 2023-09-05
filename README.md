@@ -1,6 +1,18 @@
 # ToDo WebApp 
 
-## 前提環境
+## Azureインフラ構成
+
+* App Service
+    - 公開： `コード`
+    - ランタイム: `.NET 6 (LTS)`
+    - OS: `Linux`
+* SQL Database
+    - 照合順序： `Latin1_General_100_CI_AI_SC_UTF8`
+
+
+## 開発環境
+
+### 環境準備
 
 * 開発環境にインストール
 
@@ -30,7 +42,7 @@
     }
     ```
 
-## 動作確認
+### 動作確認
 
 1. ビルド/実行
 

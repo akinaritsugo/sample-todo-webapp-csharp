@@ -6,6 +6,12 @@
     - 公開： `コード`
     - ランタイム: `.NET 6 (LTS)`
     - OS: `Linux`
+    - 設定-構成-接続文字列:
+
+        |名前|値|種類|
+        |---|---|---|
+        | `MSSQLDB` | (作成された SQL Database への接続文字列) | `SQL Server` |
+
 * SQL Database
     - 照合順序： `Latin1_General_100_CI_AI_SC_UTF8`
 
